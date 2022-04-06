@@ -75,3 +75,32 @@ def Unikalne(matrix):
     #     j - wiersz któryś z dołu, który sprawdzamy
     #     k - kolumna, dla której porównujemy (idziemy w prawo)
     return True
+
+def TyleSamo(matrix):
+    '''
+    :param matrix: macierz
+    :return: True, jeżeli każdy wiersz i kolumna zawierają tyle samo 0 co 1, w przeciwnym razie False
+    '''
+    for i in range(len(matrix)):
+        ilezer = 0
+        ilejedynek = 0
+        for j in range(len(matrix)):
+            if matrix[i][j]=="0":
+                ilezer+=1
+            if matrix[i][j]=="1":
+                ilejedynek+=1
+        if ilezer!=ilejedynek:
+            return False
+    for i in range(len(matrix)):
+        ilezer = 0
+        ilejedynek = 0
+        for j in range(len(matrix)):
+            if matrix[j][i]=="0":
+                ilezer+=1
+            if matrix[j][i]=="1":
+                ilejedynek+=1
+        if ilezer!=ilejedynek:
+            return False
+
+    return True
+print(TyleSamo(make_grid("binary_test1.txt")))

@@ -34,7 +34,6 @@ def Trojki(matrix, row, kol, field):
                     return False
 
         for k in range(len(matrix)-2):
-            print(matrix[row][k])
             if matrix[row][k]==str(j):
                 if matrix[row][k]==matrix[row][k+1]==matrix[row][k+2]:
                     return False
@@ -53,7 +52,6 @@ def Unikalne(matrix):
                 if matrix[k][i]==matrix[k][j]:
                     licznik+=1
             if licznik==len(matrix):
-                print("kolumna")
                 return False
     # Do powyższych pętli:
     #     i - główna kolumna, od której sprawdzamy
@@ -67,7 +65,6 @@ def Unikalne(matrix):
                 if matrix[i][k]==matrix[j][k]:
                     licznik+=1
             if licznik==len(matrix):
-                print("wiersz")
                 return False
 
     # Do powyższych pętli:
@@ -103,4 +100,8 @@ def TyleSamo(matrix):
             return False
 
     return True
-print(TyleSamo(make_grid("binary_test1.txt")))
+
+def sprawdzenie(matrix, i, j):
+    if Trojki(matrix,i,j,[0,1]) == False or Unikalne(matrix) == False or TyleSamo(matrix)==False:
+        return False
+    return True

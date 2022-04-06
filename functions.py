@@ -1,5 +1,10 @@
 import numpy as np
 def make_grid(filename):
+    '''
+    funkcja przetwarza dany plik w macierz
+    :param filename: plik z macierza
+    :return: przygotowana w liscie macierz
+    '''
 
     with open(filename, "r") as file:
         rows = file.readlines()
@@ -12,18 +17,25 @@ def make_grid(filename):
             tab.append(pom)
         matrix = np.array(tab)
         return matrix
-make_grid("binary_6x6")
 
 def Trojki(matrix, row, kol, field):
-
+    '''
+    funkcja sprawdza, czy w wierszu i kolumnie sa jakies trojki
+    :param matrix: macierz
+    :param row: indeks wiersza
+    :param kol: indeks kolumny
+    :param field: dziedzina przeszukiwania
+    :return:
+    '''
     for j in field:
         for i in range(len(matrix)-2):
-            if matrix[i][kol]==j:
+           if matrix[i][kol]==str(j):
                 if matrix[i][kol] == matrix[i+1][kol] == matrix[i+2][kol]:
                     return False
 
         for k in range(len(matrix)-2):
-            if matrix[row][k]==j:
+            print(matrix[row][k])
+            if matrix[row][k]==str(j):
                 if matrix[row][k]==matrix[row][k+1]==matrix[row][k+2]:
                     return False
     return True

@@ -40,3 +40,38 @@ def Trojki(matrix, row, kol, field):
                     return False
     return True
 
+def Unikalne(matrix):
+    '''
+    :param matrix: macierz
+    :return: True, jezeli kazdy wiersz i kolumna sa unikalne, w przeciwnym razie False
+    '''
+
+    for i in range(0, len(matrix)-1):
+        for j in range(i+1, len(matrix)):
+            licznik = 0
+            for k in range(len(matrix)):
+                if matrix[k][i]==matrix[k][j]:
+                    licznik+=1
+            if licznik==len(matrix):
+                print("kolumna")
+                return False
+    # Do powyższych pętli:
+    #     i - główna kolumna, od której sprawdzamy
+    #     j - kolumna któraś z prawej, którą sprawdzamy
+    #     k - wiersz, dla którego porównujemy (idziemy w dół)
+
+    for i in range(0, len(matrix)-1):
+        for j in range(i+1, len(matrix)):
+            licznik = 0
+            for k in range(len(matrix)):
+                if matrix[i][k]==matrix[j][k]:
+                    licznik+=1
+            if licznik==len(matrix):
+                print("wiersz")
+                return False
+
+    # Do powyższych pętli:
+    #     i - główny wiersz, od którego sprawdzamy
+    #     j - wiersz któryś z dołu, który sprawdzamy
+    #     k - kolumna, dla której porównujemy (idziemy w prawo)
+    return True

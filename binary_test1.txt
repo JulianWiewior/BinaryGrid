@@ -1,6 +1,6 @@
-0xx1x1
-0x0xx1
-0xxx01
-x111xx
-xxxxxx
-1xx000
+000x11
+000z11
+1x111x
+1x111x
+11xxxx
+11xxx0

@@ -39,69 +39,103 @@ def Trojki(matrix, row, kol, field):
                     return False
     return True
 
-def Unikalne(matrix):
+def Unikalne(matrix, row, kol):
     '''
     :param matrix: macierz
     :return: True, jezeli kazdy wiersz i kolumna sa unikalne, w przeciwnym razie False
     '''
-
-    for i in range(0, len(matrix)-1):
-        for j in range(i+1, len(matrix)):
-            licznik = 0
-            for k in range(len(matrix)):
-                if matrix[k][i]==matrix[k][j]:
-                    licznik+=1
-            if licznik==len(matrix):
+    czyPuste = False
+    if 'x' in matrix[row]:
+        czyPuste = True
+    for i in range(len(matrix)):
+        if i!=row:
+            if np.array_equal(matrix[i], matrix[row]):
                 return False
-    # Do powyższych pętli:
-    #     i - główna kolumna, od której sprawdzamy
-    #     j - kolumna któraś z prawej, którą sprawdzamy
-    #     k - wiersz, dla którego porównujemy (idziemy w dół)
-
-    for i in range(0, len(matrix)-1):
-        for j in range(i+1, len(matrix)):
-            licznik = 0
-            for k in range(len(matrix)):
-                if matrix[i][k]==matrix[j][k]:
-                    licznik+=1
-            if licznik==len(matrix):
+    nowymatrix = matrix.T
+    for i in range(len(nowymatrix)):
+        if i!=kol:
+            if np.array_equal(nowymatrix[i], nowymatrix[kol]):
                 return False
+    return True, czyPuste
 
-    # Do powyższych pętli:
-    #     i - główny wiersz, od którego sprawdzamy
-    #     j - wiersz któryś z dołu, który sprawdzamy
-    #     k - kolumna, dla której porównujemy (idziemy w prawo)
-    return True
+    #
+    #
+    # for i in range(0, len(matrix)-1):
+    #     for j in range(i+1, len(matrix)):
+    #         licznik = 0
+    #         for k in range(len(matrix)):
+    #             if matrix[k][i]==matrix[k][j]:
+    #                 licznik+=1
+    #         if licznik==len(matrix):
+    #             return False
+    # # Do powyższych pętli:
+    # #     i - główna kolumna, od której sprawdzamy
+    # #     j - kolumna któraś z prawej, którą sprawdzamy
+    # #     k - wiersz, dla którego porównujemy (idziemy w dół)
+    #
+    # for i in range(0, len(matrix)-1):
+    #     for j in range(i+1, len(matrix)):
+    #         licznik = 0
+    #         for k in range(len(matrix)):
+    #             if matrix[i][k]==matrix[j][k]:
+    #                 licznik+=1
+    #         if licznik==len(matrix):
+    #             return False
+    #
+    # # Do powyższych pętli:
+    # #     i - główny wiersz, od którego sprawdzamy
+    # #     j - wiersz któryś z dołu, który sprawdzamy
+    # #     k - kolumna, dla której porównujemy (idziemy w prawo)
+    # return True
 
-def TyleSamo(matrix):
+def TyleSamo(matrix, row, kol, field):
     '''
     :param matrix: macierz
     :return: True, jeżeli każdy wiersz i kolumna zawierają tyle samo 0 co 1, w przeciwnym razie False
     '''
-    for i in range(len(matrix)):
-        ilezer = 0
-        ilejedynek = 0
-        for j in range(len(matrix)):
-            if matrix[i][j]=="0":
-                ilezer+=1
-            if matrix[i][j]=="1":
-                ilejedynek+=1
-        if ilezer!=ilejedynek:
+    for j in field:
+        liczba = 0
+        for i in range(len(matrix)):
+            if matrix[row][i]==str(j):
+                liczba+=1
+        if(liczba>len(matrix)/2):
             return False
-    for i in range(len(matrix)):
-        ilezer = 0
-        ilejedynek = 0
-        for j in range(len(matrix)):
-            if matrix[j][i]=="0":
-                ilezer+=1
-            if matrix[j][i]=="1":
-                ilejedynek+=1
-        if ilezer!=ilejedynek:
+        liczba = 0
+        for i in range(len(matrix)):
+            if matrix[i][kol]==str(j):
+                liczba+=1
+        if(liczba>len(matrix)/2):
             return False
-
     return True
 
-def sprawdzenie(matrix, i, j):
-    if Trojki(matrix,i,j,[0,1]) == False or Unikalne(matrix) == False or TyleSamo(matrix)==False:
+def puste(matrix):
+    for i in range(len(matrix)):
+        for j in range(len(matrix)):
+            if matrix[i][j]=='x':
+                return i,j
+    return False
+
+def sprawdzenie(matrix, i, j, field):
+    if Trojki(matrix,i,j,[0,1]) == False or Unikalne(matrix, i, j) == False or TyleSamo(matrix, i, j, field)==False:
         return False
     return True
+
+def solve(matrix, field):
+    punkt = puste(matrix)
+    if punkt == False:
+        print(matrix)
+        return
+
+    row = punkt[0]
+    kol = punkt[1]
+
+
+    for i in field:
+        matrix[row][kol]=str(i)
+        if sprawdzenie(matrix,row,kol,field)==True:
+            solve(matrix, field)
+
+    matrix[row][kol]='x'
+    return
+
+solve(make_grid("binary_10x10"),[0,1])
